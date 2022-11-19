@@ -1,0 +1,47 @@
+
+from selenium import webdriver
+from googlesearch import search
+from selenium.webdriver.firefox.options import Options
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import WebDriverException
+
+# selenium
+# googlesearch
+
+def getPrice(product_name):
+    options = Options()
+    options.headless = True
+    browser = webdriver.Firefox('C:\\pitonHackathon\\', options=options)
+    for txt in search("mega-image "+product_name , tld="co.in", num=1, stop=1):
+        print()
+    browser.get(txt)
+    link = txt
+    for i in range(1,len(link)-3):
+        if link[len(link)-i]=='/' and link[len(link)-i-2]=='/':
+            i=i+1
+            break
+    if link[len(link)-i] == 'c':
+        try:
+            price = browser.find_element('xpath','/html/body/div[1]/div[2]/div/main/div/div[2]/div[2]/div[2]/div/div/li[2]/div/div/div[1]/div[3]/div[2]/div/div[2]/div[2]/div')
+        except WebDriverException or NoSuchElementException or Exception:   
+            return 0
+    else :
+        try:
+            price = browser.find_element('xpath','/html/body/div[1]/main/div/div[2]/section/div/header/div[4]/div[3]/div[2]/div[1]/div')
+        except WebDriverException or NoSuchElementException or Exception:  
+            return 0
+    costxt = price.text
+    browser.close()
+    if(len(costxt)>0):
+        costxt = costxt[:-4]
+        for i in range(0,len(costxt)):
+            if costxt[i]==',':
+                break
+        cost=costxt[0:i]
+        cost =cost +'.'+costxt[i+1:]
+        return float(cost)
+
+
+
+costTotal = getPrice("pulpe dezosate de pui")
+print(costTotal)
