@@ -1,0 +1,27 @@
+
+from selenium import webdriver
+from googlesearch import search
+from selenium.webdriver.firefox.options import Options
+
+options = Options()
+options.headless = True
+browser = webdriver.Firefox('C:\\pitonHackathon\\', options=options)
+for txt in search("mega-image monster doza", tld="co.in", num=1, stop=1):
+    print(txt)
+
+browser.get(txt)
+
+link = txt
+
+if link[len(link)-12]+link[len(link)-11]+link[len(link)-10] == '/c/':
+    price = browser.find_element('xpath','/html/body/div[1]/div[2]/div/main/div/div[2]/div[2]/div[2]/div[1]/div/li[1]/div/div/div[1]/div[3]/div[2]/div[2]/div[2]/div[2]/div')
+else :
+    price = browser.find_element('xpath','/html/body/div[1]/main/div/div[2]/section/div/header/div[4]/div[3]/div[2]/div[1]/div')
+
+
+print("Price: " + price.text)
+
+
+
+browser.close()
+
