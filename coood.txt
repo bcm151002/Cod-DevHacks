@@ -1,0 +1,26 @@
+import pytesseract
+from PIL import Image
+import pyttsx3
+from deep_translator import GoogleTranslator     
+  
+######################################
+
+img = Image.open('text1.png')
+pytesseract.pytesseract.tesseract_cmd =r'C:\Users\User\anaconda3\envs\tesseract\Library\bin\tesseract.exe'   
+result = pytesseract.image_to_string(img)
+print(result)
+
+######################################
+                                     
+# auto translate to romanian language
+k = GoogleTranslator(source='auto', target='ro').translate(result);  
+# print(k)
+
+######################################
+
+# text to speech
+engine = pyttsx3.init()
+engine.say(k)                             
+engine.runAndWait()
+
+#####################################
